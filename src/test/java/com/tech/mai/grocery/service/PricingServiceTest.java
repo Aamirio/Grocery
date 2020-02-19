@@ -54,6 +54,17 @@ public class PricingServiceTest {
     }
 
     @Test
+    public void shouldCalculateTotalCost_onVariousItemsWithDifferentDiscountsDuringDiscountPeriod() {
+
+        final Map<StockItem, Integer> stockItemsByQuantity = new HashMap<>();
+        stockItemsByQuantity.put(BREAD, 1);
+        stockItemsByQuantity.put(SOUP, 2);
+        stockItemsByQuantity.put(APPLE, 3);
+
+        assertThat(pricingService.calculateTotalCost(stockItemsByQuantity, LocalDate.now().plus(Period.ofDays(5)))).isEqualTo(new BigDecimal("1.97"));
+    }
+
+    @Test
     public void calculate_shouldReturnZero_whenPassingNullValue() {
 
         final BigDecimal totalCost = pricingService.calculateTotalCost(null, LocalDate.now());

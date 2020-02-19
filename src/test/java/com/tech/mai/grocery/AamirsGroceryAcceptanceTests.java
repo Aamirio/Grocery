@@ -71,4 +71,15 @@ public class AamirsGroceryAcceptanceTests {
 				.containsOnlyOnce("Total cost: £3.15");
 	}
 
+	@Test
+	public void shouldPrintTotal_whenBuyingThreeApplesTwoSoupAndOneBread_fiveDaysTime() {
+		groceryApp.run("5", "Soup", "Apple", "Soup", "Apple", "Apple", "Bread");
+
+		assertThat(output.toString())
+				.containsOnlyOnce("1 x bread")
+				.containsOnlyOnce("2 x soup")
+				.containsOnlyOnce("3 x apple")
+				.containsOnlyOnce("Total cost: £1.97");
+	}
+
 }
