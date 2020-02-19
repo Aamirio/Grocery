@@ -17,6 +17,6 @@ public class DataStore {
     static final StockItem MILK = new StockItem("milk", new BigDecimal("1.30"));
     static final StockItem APPLE = new StockItem("apple", new BigDecimal("0.10"));
 
-    static final Discount DISCOUNT_BREAD = new Discount(BREAD, SOUP, 2,yesterday, seventhDayFromYesterday, 0.5);
-    static final Discount DISCOUNT_APPLE = new Discount(APPLE, null, 0, threeDaysAfterToday, nextMonthEnd,0.1);
+    static final Discount DISCOUNT_BREAD = new Discount(BREAD, SOUP, 2, YESTERDAY, SEVENTH_DAY_FROM_YESTERDAY, 0.5);
+    static final Discount DISCOUNT_APPLE = new Discount(APPLE, null, 0, THREE_DAYS_AFTER_TODAY, NEXT_MONTH_END,0.1);
 }

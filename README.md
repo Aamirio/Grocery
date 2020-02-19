@@ -1,5 +1,5 @@
-# Aamir's Grocery
-Aamir's Grocery Application adds available items to basket
+# Aamir's Grocery Application
+Aamir's Grocery Application adds available items to basket applying any applicable discounts
 
 ### Building the application
 On command line:
@@ -21,4 +21,8 @@ required args
 
 * To buy 2 apples and a bottle of milk the day after tomorrow:   
 `java -jar target/grocery-0.0.1-SNAPSHOT.jar 2 Apple Apple Milk`
+
+### Future Releases...
+
+... should contain a more suitable CLI where you can add items to your basket one at a time
  

@@ -1,7 +1,10 @@
 package com.tech.mai.grocery.service;
 
 import com.tech.mai.grocery.domain.StockItem;
+import com.tech.mai.grocery.repository.DiscountRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -13,12 +16,21 @@ import java.util.Map;
 
 import static com.tech.mai.grocery.fixture.TestFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class PricingServiceTest {
 
     @Autowired
     PricingService pricingService;
+
+    @Mock
+    DiscountRepository discountRepository;
+
+    @BeforeEach
+    private void setup() {
+        when(discountRepository.getAllDiscounts()).thenReturn(ALL_DISCOUNTS);
+    }
 
     @Test
     public void shouldCalculateTotalCost_onItemsNotDuringDiscountPeriod() {
