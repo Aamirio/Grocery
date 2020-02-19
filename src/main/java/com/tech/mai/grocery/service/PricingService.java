@@ -53,10 +53,21 @@ public class PricingService {
 
     private BigDecimal calculateDiscount(Discount discount, Map<StockItem, Integer> stockItemsByQuantity, LocalDate purchaseDate) {
 
+        BigDecimal totalDiscount = BigDecimal.ZERO;
         final StockItem itemOnDiscount = discount.getItemOnDiscount();
+        final StockItem itemDependedOn = discount.getItemDependedOn();
         final Integer quantityItemOnDiscount = stockItemsByQuantity.get(itemOnDiscount);
+        final Integer quantityItemDependedOn = stockItemsByQuantity.get(itemDependedOn);
         final BigDecimal discountAmountOnItem = itemOnDiscount.getCost().multiply(BigDecimal.valueOf(discount.getDiscount()));
 
-        return discountAmountOnItem.multiply(new BigDecimal(quantityItemOnDiscount));
+        if (itemDependedOn == null) {
+            totalDiscount = discountAmountOnItem.multiply(new BigDecimal(quantityItemOnDiscount));
+        }
+        else if (quantityItemDependedOn != null) {
+            final BigDecimal noOfDiscountableItems = new BigDecimal(quantityItemDependedOn / discount.getNoOfItemsDependedOn());
+            totalDiscount = discountAmountOnItem.multiply(noOfDiscountableItems);
+        }
+
+        return totalDiscount;
     }
 }

@@ -11,8 +11,7 @@ import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.tech.mai.grocery.fixture.TestFixtures.APPLE;
-import static com.tech.mai.grocery.fixture.TestFixtures.MILK;
+import static com.tech.mai.grocery.fixture.TestFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -42,6 +41,16 @@ public class PricingServiceTest {
         final BigDecimal totalCost = pricingService.calculateTotalCost(stockItemsByQuantity, LocalDate.now().plus(Period.ofDays(3)));
 
         assertThat(totalCost).isEqualTo(new BigDecimal("0.18"));
+    }
+
+    @Test
+    public void shouldCalculateTotalCost_onItemsOnDiscountDependentOnOtherStockItems() {
+
+        final Map<StockItem, Integer> stockItemsByQuantity = new HashMap<>();
+        stockItemsByQuantity.put(SOUP, 5);
+        stockItemsByQuantity.put(BREAD, 3);
+
+        assertThat(pricingService.calculateTotalCost(stockItemsByQuantity, LocalDate.now())).isEqualTo(new BigDecimal("4.85"));
     }
 
     @Test
