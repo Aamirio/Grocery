@@ -1,20 +1,18 @@
 package com.tech.mai.grocery.service;
 
-import com.tech.mai.grocery.domain.StockItem;
 import com.tech.mai.grocery.dto.Basket;
 import com.tech.mai.grocery.repository.CatalogueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BasketService {
 
     @Autowired CatalogueRepository catalogueRepository;
+    @Autowired PricingService pricingService;
 
     /**
      * Creates a basket containing the given items and calculates the total cost of items
@@ -50,15 +48,8 @@ public class BasketService {
                 .findAny()
                 .ifPresent(basket::addStockItem);
 
-        basket.setTotal(calculateTotalCost(basket.getStockItems()));
+        basket.setTotal(pricingService.calculateTotalCost(basket.getStockItems(), basket.getPurchaseDate()));
 
         return basket;
-    }
-
-    private BigDecimal calculateTotalCost(Map<StockItem, Integer> stockItemsByQuantity) {
-
-        return stockItemsByQuantity.entrySet().stream()
-                .map(entry -> entry.getKey().getCost().multiply(new BigDecimal(entry.getValue())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

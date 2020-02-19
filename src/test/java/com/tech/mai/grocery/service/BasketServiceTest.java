@@ -15,6 +15,7 @@ import java.util.Arrays;
 import static com.tech.mai.grocery.fixture.TestFixtures.ALL_STOCK_ITEMS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -26,9 +27,13 @@ public class BasketServiceTest {
     @Mock
     CatalogueRepository catalogueRepository;
 
+    @Mock
+    PricingService pricingService;
+
     @BeforeEach
     private void setup() {
         when(catalogueRepository.getAllStockItems()).thenReturn(ALL_STOCK_ITEMS);
+        when(pricingService.calculateTotalCost(any(), any())).thenReturn(new BigDecimal("1.50"));
     }
 
     @Test
