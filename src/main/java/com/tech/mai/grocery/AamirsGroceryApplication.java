@@ -9,11 +9,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.time.Period.ofDays;
+import static com.tech.mai.grocery.Constants.ERROR_FIRST_ARG;
+import static com.tech.mai.grocery.Constants.ERROR_MIN_TWO_ARGS;
 
 @SpringBootApplication
 public class AamirsGroceryApplication implements CommandLineRunner {
@@ -32,12 +34,22 @@ public class AamirsGroceryApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... items) {
+	public void run(String... args) {
 
-		if (items.length > 1) {
-			final List<String> inputList = new ArrayList<>(Arrays.asList(items));
+
+
+		if (args.length < 2) { System.err.println(ERROR_MIN_TWO_ARGS); }
+		else {
+			final List<String> inputList = new ArrayList<>(Arrays.asList(args));
 			final String daysOffset = inputList.remove(0);
-			final LocalDate purchaseDate = LocalDate.now().plus(ofDays(Integer.valueOf(daysOffset)));
+
+			try { Integer.parseInt(daysOffset); }
+			catch (NumberFormatException nfe) {
+				System.err.println(ERROR_FIRST_ARG);
+				return;
+			}
+
+			final LocalDate purchaseDate = LocalDate.now().plus(Period.ofDays(Integer.valueOf(daysOffset)));
 
 			System.out.println(basketService.createBasket(inputList, purchaseDate));
 		}
