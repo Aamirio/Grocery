@@ -2,19 +2,19 @@ package com.tech.mai.grocery.service;
 
 import com.tech.mai.grocery.domain.StockItem;
 import com.tech.mai.grocery.dto.Basket;
+import com.tech.mai.grocery.repository.CatalogueRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
-
-import static com.tech.mai.grocery.service.DataStore.*;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class BasketService {
 
-//    @Autowired CatalogueRepository catalogueRepository;
-//    @Autowired PricingService pricingService;
+    @Autowired CatalogueRepository catalogueRepository;
 
     /**
      * Creates a basket containing the given items and calculates the total cost of items
@@ -45,9 +45,7 @@ public class BasketService {
 
         if (basket == null) { return basket; }
 
-        final Set<StockItem> allStockItems = new HashSet<>(Arrays.asList(SOUP, BREAD, MILK, APPLE));
-
-        allStockItems.stream()
+        catalogueRepository.getAllStockItems().stream()
                 .filter(stockedItem -> stockedItem.getName().equalsIgnoreCase(item))
                 .findAny()
                 .ifPresent(basket::addStockItem);

@@ -1,4 +1,4 @@
-package com.tech.mai.grocery.service;
+package com.tech.mai.grocery.repository;
 
 import com.tech.mai.grocery.domain.StockItem;
 

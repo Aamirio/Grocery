@@ -1,22 +1,35 @@
 package com.tech.mai.grocery.service;
 
 import com.tech.mai.grocery.dto.Basket;
+import com.tech.mai.grocery.repository.CatalogueRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+import static com.tech.mai.grocery.fixture.TestFixtures.ALL_STOCK_ITEMS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class BasketServiceTest {
 
-    @Autowired
+    @InjectMocks
     BasketService basketService;
+
+    @Mock
+    CatalogueRepository catalogueRepository;
+
+    @BeforeEach
+    private void setup() {
+        when(catalogueRepository.getAllStockItems()).thenReturn(ALL_STOCK_ITEMS);
+    }
 
     @Test
     public void shouldCreateBasket_whenAddingValidItems() {
