@@ -19,6 +19,8 @@ public class PricingService {
      */
     BigDecimal calculateTotalCost(Map<StockItem, Integer> stockItemsByQuantity, LocalDate purchaseDate) {
 
+        if (stockItemsByQuantity == null) { return  BigDecimal.ZERO; }
+
         return stockItemsByQuantity.entrySet().stream()
                 .map(entry -> entry.getKey().getCost().multiply(new BigDecimal(entry.getValue())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

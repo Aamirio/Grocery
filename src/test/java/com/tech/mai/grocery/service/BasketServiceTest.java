@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static com.tech.mai.grocery.fixture.TestFixtures.ALL_STOCK_ITEMS;
@@ -65,6 +66,37 @@ public class BasketServiceTest {
         basket = basketService.addItemToBasket(basket, "apple");
 
         assertItemsAndQuantitiesInBasket(basket, 0, 0, 0, 2);
+    }
+
+    @Test
+    public void shouldNotUpdateBasket_whenAddingInvalidItemToExistingBasket() {
+
+        Basket basket = basketService.addItemToBasket(new Basket(LocalDate.now()), "pear");
+
+        assertItemsAndQuantitiesInBasket(basket, 0, 0, 0, 0);
+
+    }
+
+    @Test
+    public void shouldCreateBasket_withOnlyValidItems_whenAddingValidAndInvalidItems() {
+
+        final Basket basket = basketService.createBasket(Arrays.asList("Apple", "Soup", "Milk", "apple", "banana"), LocalDate.now());
+
+        assertThat(basket.getStockItems().entrySet().size()).isEqualTo(3);
+        assertItemsAndQuantitiesInBasket(basket, 1, 0, 1, 2);
+    }
+
+    @Test
+    public void shouldCreateEmptyBasket_whenAddingOnlyInvalidItems() {
+
+        assertThat(basketService.createBasket(Arrays.asList("banana", "pear"), LocalDate.now()).getStockItems().size()).isEqualTo(0);
+    }
+
+    @Test
+    public void shouldCreateEmptyBasket_whenAddingNoItems() {
+
+        assertThat(basketService.createBasket(new ArrayList<>(), LocalDate.now()).getStockItems().size()).isEqualTo(0);
+        assertThat(basketService.createBasket(null, LocalDate.now()).getStockItems().size()).isEqualTo(0);
     }
 
     private void assertItemsAndQuantitiesInBasket(Basket basket, int noOfSoupTins, int noOfBreadLoaves, int noOfMilkBottles, int noOfApples) {

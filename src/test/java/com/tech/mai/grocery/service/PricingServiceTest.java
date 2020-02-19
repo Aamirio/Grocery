@@ -31,4 +31,12 @@ public class PricingServiceTest {
 
         assertThat(totalCost).isEqualTo(new BigDecimal("1.50"));
     }
+
+    @Test
+    public void calculate_shouldReturnZero_whenPassingNullValue() {
+
+        final BigDecimal totalCost = pricingService.calculateTotalCost(null, LocalDate.now());
+
+        assertThat(totalCost).isEqualTo(BigDecimal.ZERO);
+    }
 }
