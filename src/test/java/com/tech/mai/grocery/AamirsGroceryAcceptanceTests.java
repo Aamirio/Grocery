@@ -12,7 +12,7 @@ import java.io.PrintStream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class AamirsGroceryApplicationTests {
+class AamirsGroceryAcceptanceTests {
 
 	private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
@@ -30,14 +30,13 @@ class AamirsGroceryApplicationTests {
 	private AamirsGroceryApplication groceryApp;
 
 	@Test
-	public void shouldPrintGivenItemsToConsole() {
-		groceryApp.run("Apple", "Banana", "Pear");
+	public void shouldPrintTotal_whenBuyingSixApplesAndOneMilk_today() {
+		groceryApp.run("0", "Apple", "Milk", "Apple", "Apple", "Apple", "Apple", "Apple");
 
 		assertThat(output.toString())
-				.containsOnlyOnce("Shopping Items:")
-				.containsOnlyOnce("Apple")
-				.containsOnlyOnce("Banana")
-				.containsOnlyOnce("Pear");
+				.containsOnlyOnce("6 x apple")
+				.containsOnlyOnce("1 x milk")
+				.containsOnlyOnce("Total cost: £1.90");
 	}
 
 }
