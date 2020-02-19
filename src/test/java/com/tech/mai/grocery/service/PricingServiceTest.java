@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class PricingServiceTest {
     PricingService pricingService;
 
     @Test
-    public void shouldCalculateTotalCost() {
+    public void shouldCalculateTotalCost_onItemsNotDuringDiscountPeriod() {
 
         final Map<StockItem, Integer> stockItemsByQuantity = new HashMap<>();
         stockItemsByQuantity.put(APPLE, 2);
@@ -30,6 +31,17 @@ public class PricingServiceTest {
         final BigDecimal totalCost = pricingService.calculateTotalCost(stockItemsByQuantity, LocalDate.now());
 
         assertThat(totalCost).isEqualTo(new BigDecimal("1.50"));
+    }
+
+    @Test
+    public void shouldCalculateTotalCost_onItemsDuringDiscountPeriod() {
+
+        final Map<StockItem, Integer> stockItemsByQuantity = new HashMap<>();
+        stockItemsByQuantity.put(APPLE, 2);
+
+        final BigDecimal totalCost = pricingService.calculateTotalCost(stockItemsByQuantity, LocalDate.now().plus(Period.ofDays(3)));
+
+        assertThat(totalCost).isEqualTo(new BigDecimal("0.18"));
     }
 
     @Test

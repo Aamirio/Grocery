@@ -13,7 +13,7 @@ import static com.tech.mai.grocery.Constants.ERROR_MIN_TWO_ARGS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class AamirsGroceryAcceptanceTests {
+public class AamirsGroceryAcceptanceTests {
 
 	private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 	private final ByteArrayOutputStream errorOutput = new ByteArrayOutputStream();
@@ -49,6 +49,16 @@ class AamirsGroceryAcceptanceTests {
 				.containsOnlyOnce("6 x apple")
 				.containsOnlyOnce("1 x milk")
 				.containsOnlyOnce("Total cost: £1.90");
+	}
+
+	@Test
+	public void shouldPrintTotal_whenBuyingSixApplesAndOneMilk_fiveDaysTime() {
+		groceryApp.run("5", "Apple", "Milk", "Apple", "Apple", "Apple", "Apple", "Apple");
+
+		assertThat(output.toString())
+				.containsOnlyOnce("6 x apple")
+				.containsOnlyOnce("1 x milk")
+				.containsOnlyOnce("Total cost: £1.84");
 	}
 
 }
