@@ -6,7 +6,10 @@ On command line:
 1. Clone the repository  
 `git clone` https://github.com/Aamirio/Grocery.git  
 
-2. Build and package the application  
+2. Navigate to cloned directory  
+`cd Grocery/`
+
+3. Build and package the application  
 `mvn clean package`
 
 ### Running the application
